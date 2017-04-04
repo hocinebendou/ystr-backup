@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout/default">
+<!-- <head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head> -->
+<head lang="en">
+	<meta charset="UTF-8"/>
+	<title>Hello thymeleaf</title>
+</head>
+
+<body>
+<div class="row" layout:fragment="content"> 
+	<div class="col-sm-offset-1 col-sm-3">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">Haplotypes search</div>
+    		<div class="panel-body">
+    		<form th:action="@{/search}" method="post" class="col-sm-12 form-horizontal" th:object="${searchForm}">
+    			<div class="form-group" style="margin-top:5px;">
+    				<label class="control-label col-sm-4" for="dys710" style="margin-top:5px;">DYS710:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys710" name="dys710" value="0" th:field="${searchForm.dys710}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys518" style="margin-top:5px;">DYS518:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys518" name="dys518" value="0" th:field="${searchForm.dys518}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys385a" style="margin-top:5px;">DYS385a:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys385a" name="dys385a" value="0" th:field="${searchForm.dys385a}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys385b" style="margin-top:5px;">DYS385b:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys385b" name="dys385b" value="0" th:field="${searchForm.dys385b}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys644" style="margin-top:5px;">DYS644:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys644" name="dys644" value="0" th:field="${searchForm.dys644}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys612" style="margin-top:5px;">DYS612:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys612" name="dys612" value="0" th:field="${searchForm.dys612}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys626" style="margin-top:5px;">DYS626:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys626" name="dys626" value="0" th:field="${searchForm.dys626}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys504" style="margin-top:5px;">DYS504:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys504" name="dys504" value="0" th:field="${searchForm.dys504}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys481" style="margin-top:5px;">DYS481:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys481" name="dys481" value="0" th:field="${searchForm.dys481}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys447" style="margin-top:5px;">DYS447:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys447" name="dys447" value="0" th:field="${searchForm.dys447}" />
+    				</div>
+				</div>
+				
+				<div class="form-group" style="margin-top:10px;">
+    				<label class="control-label col-sm-4" for="dys449" style="margin-top:5px;">DYS449:</label>
+    				<div class="col-sm-6">
+      					<input type="number" class="form-control" id="dys449" name="dys449" value="0" th:field="${searchForm.dys449}" />
+    				</div>
+				</div>
+				
+				<div class="text-right">
+					<button class="btn btn-default btn-primary" type="submit">Search <i class="glyphicon glyphicon-chevron-right"></i></button>
+				</div>
+    		</form>
+    		</div>
+    	</div>
+    </div>
+    <div class="col-sm-offset-0 col-sm-7">
+    	<div class="panel panel-info">
+    		<div class="panel-heading">Results</div>
+    		<div class="panel-body">
+    			<div class="panel panel-default">
+    				<div class="panel-heading">Observed</div>
+    				<div class="panel-body">
+    					<strong>Found <span th:text="${hc}">0</span> matches in <span th:text="${tc}">0</span> Haplotypes.</strong>
+    					This is approx. 1 match in <span th:text="${mpo}">0</span> Haplotypes
+    					
+    				</div>
+    			</div>
+    			<div class="panel panel-default">
+    				<div class="panel-heading">Expected</div>
+    				<div class="panel-body">
+    					<strong> (n + 1)/ (N +1).</strong>
+    					This is approx. 1 match in <span th:text="${mpe}">0</span> Haplotypes
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+    
+</body>
+</html>
