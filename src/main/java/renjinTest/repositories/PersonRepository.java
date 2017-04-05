@@ -9,7 +9,9 @@ import renjinTest.domain.Person;
 
 public interface PersonRepository extends PagingAndSortingRepository<Person, Long>{
 	
-	@Query("MATCH (n:Person) RETURN count(n)")
+	String query = "MATCH (n:Person) RETURN count(n)";
+	
+	@Query(query)
 	int countPersons();
 	
 	@Query("MATCH (p:Person) " +
