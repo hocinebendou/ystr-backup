@@ -1,11 +1,12 @@
 package renjinTest.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.neo4j.ogm.model.Result;
 import org.neo4j.ogm.session.Session;
 import org.rosuda.REngine.REXPDouble;
@@ -148,11 +149,45 @@ public class GreetingController {
 		int matchPerObserved = hapCount == 0 ? totalCount : (int)totalCount/hapCount;
 		int matchPerExpected = (int)(totalCount)/(hapCount + 1);
 		
+		List<Integer> ciObserved = confidenceInterval(hapCount, totalCount, true);
+		List<Integer> ciExpected = confidenceInterval(hapCount, totalCount, false);
+		
 		redirectAttributes.addFlashAttribute("hc", hapCount);
 		redirectAttributes.addFlashAttribute("tc", totalCount);
 		redirectAttributes.addFlashAttribute("mpo", matchPerObserved);
 		redirectAttributes.addFlashAttribute("mpe", matchPerExpected);
+		if(!ciObserved.isEmpty()){
+			redirectAttributes.addFlashAttribute("cio1", ciObserved.get(0));
+			redirectAttributes.addFlashAttribute("cio2", ciObserved.get(1));
+		}
+		if(!ciExpected.isEmpty()){
+			redirectAttributes.addFlashAttribute("cie1", ciExpected.get(0));
+			redirectAttributes.addFlashAttribute("cie2", ciExpected.get(1));
+		}
 		return "redirect:/search";
+	}
+	
+	/**
+	 * Compute confidence interval for Haplotype proportion
+	 */
+	private List<Integer> confidenceInterval(int hapCount, int totalCount, boolean observed) {
+		List<Integer> ci = new ArrayList<>();
+		String bool = observed == true ? "TRUE" : "FALSE";
+		try {
+			RConnection rconn = new RConnection();
+			rconn.eval("source('/home/hocine/Rserve/scripts/ciproportion.R')");
+			String rcommand = "ciproportion(" + hapCount + ", " + totalCount + ", " + bool + ")";
+			double [] ciLimits = (double[]) rconn.eval(rcommand).asDoubles();
+			if(ciLimits.length == 2) {
+				ci.add((int)(ciLimits[1]));
+				ci.add((int)(ciLimits[0]));
+			}
+		} catch (RserveException e) {
+			e.printStackTrace();
+		} catch(REXPMismatchException re) {
+			re.printStackTrace();
+		}
+		return ci;
 	}
 	
 	/**

@@ -110,7 +110,8 @@
     				<div class="panel-heading">Observed</div>
     				<div class="panel-body">
     					<strong>Found <span th:text="${hc}">0</span> matches in <span th:text="${tc}">0</span> Haplotypes.</strong>
-    					This is approx. 1 match in <span th:text="${mpo}">0</span> Haplotypes
+    					This is approx. 1 match in <span th:text="${mpo}">0</span> Haplotypes 
+    					(95% CI: <span th:text="${cio1}">0</span> - <span th:text="${cio2}">0</span>) 
     					
     				</div>
     			</div>
@@ -119,6 +120,7 @@
     				<div class="panel-body">
     					<strong> (n + 1)/ (N +1).</strong>
     					This is approx. 1 match in <span th:text="${mpe}">0</span> Haplotypes
+    					(95% CI: <span th:text="${cie1}">0</span> - <span th:text="${cie2}">0</span>) 
     				</div>
     			</div>
     		</div>
