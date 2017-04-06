@@ -1,8 +1,9 @@
 package renjinTest.controller;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.neo4j.ogm.model.Result;
@@ -16,6 +17,8 @@ import org.rosuda.REngine.Rserve.RserveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import renjinTest.repositories.PersonRepository;
 import renjinTest.searchform.SearchForm;
+import renjinTest.searchform.SearchFormSession;
 
 
 @Controller
@@ -59,9 +63,6 @@ public class GreetingController {
 		return "greeting";
 	}
 	
-	@Autowired PersonRepository personRep;
-	
-	@Autowired Session template;
 	
 	@RequestMapping("/saluer")
 	public String saluer(@RequestParam(value="name", required=false, defaultValue="Hocine") String name, Model model) {
@@ -93,27 +94,51 @@ public class GreetingController {
 		return "greeting";
 	}
 	
+	/* =============================================================== *
+	 *        STARTS FROM HERE. ABOVE ARE JUST FOR TEST                *
+	 * =============================================================== */
+	
+	@Autowired PersonRepository personRep;
+	@Autowired Session template;
+	
+	private SearchFormSession searchFormSession;
+	@Autowired
+	public GreetingController(SearchFormSession searchFormSession) {
+		this.searchFormSession = searchFormSession;
+	}
+	
+	@ModelAttribute
+	public SearchForm getSearchForm() {
+		return searchFormSession.toForm();
+	}
+	
 	@RequestMapping(value = "/search")
 	public String search(SearchForm searchForm) {
 		return "greeting";
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String searchProfile(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	public String searchHaplotypes(@Valid SearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		
+		if(bindingResult.hasErrors()){
+			return "greeting";
+		}
+		
+		searchFormSession.saveForm(searchForm);
 		
 		final Map<String, String> parameterValues = new LinkedHashMap<>();
 		
-		parameterValues.put("DYS710", request.getParameter("dys710"));
-		parameterValues.put("DYS518", request.getParameter("dys518"));
-		parameterValues.put("DYS385a", request.getParameter("dys385a"));
-		parameterValues.put("DYS385b", request.getParameter("dys385b"));
-		parameterValues.put("DYS644", request.getParameter("dys644"));
-		parameterValues.put("DYS612", request.getParameter("dys612"));
-		parameterValues.put("DYS626", request.getParameter("dys626"));
-		parameterValues.put("DYS504", request.getParameter("dys504"));
-		parameterValues.put("DYS481", request.getParameter("dys481"));
-		parameterValues.put("DYS447", request.getParameter("dys447"));
-		parameterValues.put("DYS449", request.getParameter("dys449"));
+		parameterValues.put("DYS710", searchForm.getDys710());
+		parameterValues.put("DYS518", searchForm.getDys518());
+		parameterValues.put("DYS385a", searchForm.getDys385a());
+		parameterValues.put("DYS385b", searchForm.getDys385b());
+		parameterValues.put("DYS644", searchForm.getDys644());
+		parameterValues.put("DYS612", searchForm.getDys612());
+		parameterValues.put("DYS626", searchForm.getDys626());
+		parameterValues.put("DYS504", searchForm.getDys504());
+		parameterValues.put("DYS481", searchForm.getDys481());
+		parameterValues.put("DYS447", searchForm.getDys447());
+		parameterValues.put("DYS449", searchForm.getDys449());
 		
 		String query = constructQuery(parameterValues);		
 		final Map<String, String> paramsQuery = removeNullParams(parameterValues);
@@ -122,6 +147,7 @@ public class GreetingController {
 		int totalCount = personRep.countPersons();
 		int matchPerObserved = hapCount == 0 ? totalCount : (int)totalCount/hapCount;
 		int matchPerExpected = (int)(totalCount)/(hapCount + 1);
+		
 		redirectAttributes.addFlashAttribute("hc", hapCount);
 		redirectAttributes.addFlashAttribute("tc", totalCount);
 		redirectAttributes.addFlashAttribute("mpo", matchPerObserved);
@@ -165,7 +191,6 @@ public class GreetingController {
 			}
 		}
 		query += queryFirstPart + querySecondPart + "RETURN count(p)";
-		System.out.println(query);
 		return query;
 	}
 	
