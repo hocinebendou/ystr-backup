@@ -38,8 +38,8 @@ public class GreetingController {
 		
 		try {
 			RConnection c = new RConnection();
-			c.eval("source('/home/hocine/script.R')");
-			c.eval("source('/home/hocine/script2.R')");
+			c.eval("source('/home/hocine/Rserve/scripts/script.R')");
+			c.eval("source('/home/hocine/Rserve/scripts/script2.R')");
 			
 			RList pop = c.eval("pop.sim()").asList();
 			// System.out.println(pop.get(0).getClass().getName());
@@ -70,11 +70,11 @@ public class GreetingController {
 		model.addAttribute("name", name);
 		
 		try {
-			/*RConnection c = new RConnection();
-			c.eval("source('/home/hocine/Rserve/script3.R')");
-			c.eval("mikl()");*/
+			RConnection c = new RConnection();
+			c.eval("source('/home/hocine/Rserve/scripts/script3.R')");
+			c.eval("mikl()");
 			
-			String dys710Val = "32";
+			/*String dys710Val = "32";
 			String dys518Val = "35";
 			String dys385aVal = "11";
 			String dys385bVal = "11";
@@ -88,11 +88,16 @@ public class GreetingController {
 			int ct = personRep.countYPerson(dys710Val, dys518Val, dys385aVal, dys385bVal,
 											dys644Val, dys612Val, dys626Val, dys504Val,
 											dys481Val, dys447Val, dys449Val);
-			System.out.println(ct);
+			System.out.println(ct);*/
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return "greeting";
+	}
+	
+	@RequestMapping(value = "/mapping")
+	public String map(SearchForm searchForm) {
+		return "mapworld";
 	}
 	
 	/* =============================================================== *
@@ -148,7 +153,6 @@ public class GreetingController {
 		int totalCount = personRep.countPersons();
 		int matchPerObserved = hapCount == 0 ? totalCount : (int)totalCount/hapCount;
 		int matchPerExpected = (int)(totalCount)/(hapCount + 1);
-		
 		List<Integer> ciObserved = confidenceInterval(hapCount, totalCount, true);
 		List<Integer> ciExpected = confidenceInterval(hapCount, totalCount, false);
 		

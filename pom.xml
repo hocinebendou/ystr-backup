@@ -65,11 +65,34 @@
 		</dependency>
 		
 		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.1.1-1</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>datamaps</artifactId>
+		    <version>0.5.8</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery-ui</artifactId>
+		    <version>1.12.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>font-awesome</artifactId>
+		    <version>4.7.0</version>
+		</dependency>
 		
 	</dependencies>
 

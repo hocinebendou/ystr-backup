@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout/default">
+<head>
+	<title>Custom markers</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/mystyle.css}" />
+</head>
+<body>
+	<div class="row" layout:fragment="content" style="height:100%; width:100%;">
+   		<div class="panel panel-default" id="panel-map">
+   			<div class="panel-heading">Haplotypes search</div>
+   			<div class="panel-body" id="panel-body-map">
+				<div id="map"></div>
+			</div>
+		</div>
+	</div>	
+	<th:block layout:fragment="script">
+		<script type="text/javascript" th:src="@{/js/map.js}"></script>
+		<script th:src="@{/js/markerclusterer.js}"></script>
+		<script type="text/javascript" async="async" defer="defer" 
+			    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGSBGpSqwZUYG6r5NWpiCXONzKFM4Qdys&amp;callback=initMap"></script>
+	</th:block>
+</body>
+</html>

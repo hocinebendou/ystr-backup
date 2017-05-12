@@ -2,17 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorator="layout/default">
-<!-- <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</head> -->
+	  
 <head lang="en">
 	<meta charset="UTF-8"/>
 	<title>Hello thymeleaf</title>
+	<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/mystyle.css}" />
 </head>
 
 <body>
-<div class="row" layout:fragment="content"> 
+<div class="row" layout:fragment="content" style="height:100%; width:100%;"> 
 	<div class="col-sm-offset-1 col-sm-3">
     	<div class="panel panel-default">
     		<div class="panel-heading">Haplotypes search</div>
@@ -96,37 +94,52 @@
 				</div>
 				
 				<div class="text-right">
-					<button class="btn btn-default btn-primary" type="submit">Search <i class="glyphicon glyphicon-chevron-right"></i></button>
+					<button id="search-btn" class="btn btn-default btn-primary" type="submit">Search <i class="glyphicon glyphicon-chevron-right"></i></button>
 				</div>
     		</form>
     		</div>
     	</div>
     </div>
-    <div class="col-sm-offset-0 col-sm-7">
-    	<div class="panel panel-info">
-    		<div class="panel-heading">Results</div>
-    		<div class="panel-body">
-    			<div class="panel panel-default">
-    				<div class="panel-heading">Observed</div>
-    				<div class="panel-body">
-    					<strong>Found <span th:text="${hc}">0</span> matches in <span th:text="${tc}">0</span> Haplotypes.</strong>
-    					This is approx. 1 match in <span th:text="${mpo}">0</span> Haplotypes 
-    					(95% CI: <span th:text="${cio1}">0</span> - <span th:text="${cio2}">0</span>) 
-    					
-    				</div>
-    			</div>
-    			<div class="panel panel-default">
-    				<div class="panel-heading">Expected</div>
-    				<div class="panel-body">
-    					<strong> (n + 1)/ (N +1).</strong>
-    					This is approx. 1 match in <span th:text="${mpe}">0</span> Haplotypes
-    					(95% CI: <span th:text="${cie1}">0</span> - <span th:text="${cie2}">0</span>) 
-    				</div>
-    			</div>
-    		</div>
+    <div class="col-sm-offset-0 col-sm-7" style="height:100%;">
+    	<div class="row">
+	    	<div class="panel panel-info">
+	    		<div class="panel-heading">Results</div>
+	    		<div class="panel-body">
+	    			<div class="panel panel-default">
+	    				<div class="panel-heading">Observed</div>
+	    				<div class="panel-body">
+	    					<strong>Found <span th:text="${hc}">0</span> matches in <span th:text="${tc}">0</span> Haplotypes.</strong>
+	    					This is approx. 1 match in <span th:text="${mpo}">0</span> Haplotypes 
+	    					(95% CI: <span th:text="${cio1}">0</span> - <span th:text="${cio2}">0</span>) 
+	    					
+	    				</div>
+	    			</div>
+	    			<div class="panel panel-default">
+	    				<div class="panel-heading">Expected</div>
+	    				<div class="panel-body">
+	    					<strong> (n + 1)/ (N +1).</strong>
+	    					This is approx. 1 match in <span th:text="${mpe}">0</span> Haplotypes
+	    					(95% CI: <span th:text="${cie1}">0</span> - <span th:text="${cie2}">0</span>) 
+	    				</div>
+	    			</div>
+	    		</div>
+	    	</div>
+    	</div>
+    	<div class="row" style="height:100%; width:100%;">
+	    	<div class="panel panel-info" id="panel-map">
+	    		<div class="panel-heading">Map</div>
+	    		<div class="panel-body" id="panel-body-map">
+	    			<div id="map"></div>
+				</div>
+			</div>	
     	</div>
     </div>
 </div>
-    
+
+<th:block layout:fragment="script">
+	<script type="text/javascript" th:src="@{/js/map.js}"></script>
+	<script type="text/javascript" async="async" defer="defer" 
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGSBGpSqwZUYG6r5NWpiCXONzKFM4Qdys&amp;callback=initMap"></script>
+</th:block>
 </body>
 </html>
