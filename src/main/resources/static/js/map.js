@@ -2,7 +2,7 @@ var map, heatmap;
 var locations;
 
 $("#search-btn").click(function(event) {
-	event.preventDefault();
+	//event.preventDefault();
 	var haplotypeIds = ["dys710", "dys518", "dys385a", "dys385b", "dys644", "dys612",
 						"dys626", "dys504", "dys481", "dys447", "dys449"];
 	var keywords = null;

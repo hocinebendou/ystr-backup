@@ -31,3 +31,19 @@ html, body {
   top: 10px;
   z-index: 5;
 }
+
+
+.block { 
+	clear: none;
+    float: left;
+    margin-bottom: 5px;
+    max-width: 70px;
+    min-width: 50px;
+    padding: 0 2px;
+    text-align: center;
+}
+
+.block label {
+	display: inline-block;
+    font-weight: bold;
+}
