@@ -1,10 +1,8 @@
 var map, heatmap;
 var locations;
-
-$("#search-btn").click(function(event) {
+mapLoading();
+function mapLoading () {
 	//event.preventDefault();
-	var haplotypeIds = ["dys710", "dys518", "dys385a", "dys385b", "dys644", "dys612",
-						"dys626", "dys504", "dys481", "dys447", "dys449"];
 	var keywords = null;
 	$('input[id^="dys"]').each(function( index ) {
 		var id = $(this).attr("id");
@@ -25,15 +23,15 @@ $("#search-btn").click(function(event) {
 			}
 		});
 	}
-});
+};
 
 // Map initialization
 
 function initMap() {
-	var center = new google.maps.LatLng(51.5074, 0.1278);
+	var center = new google.maps.LatLng(20.5074, 0.1278);
 	console.log(locations);
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 3,
+      zoom: 2,
       center: center,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -48,6 +46,7 @@ function initMap() {
     
     var options = {
         imagePath: '/img/images/m',
+        gridSize: 1,
         minimumClusterSize: 1
     };
 
